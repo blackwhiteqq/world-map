@@ -1,3 +1,91 @@
-/world-map
- ├─ index.html
- └─ エーネス国名あり.jpg
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>World Map</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #0f0f0f;
+    text-align: center;
+  }
+
+  .map-container {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* ホバー用ツールチップ */
+  .tooltip {
+    position: absolute;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 14px;
+    border-radius: 4px;
+    pointer-events: none;
+    display: none;
+    white-space: nowrap;
+    z-index: 10;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="map-container">
+  <img src="map.png" usemap="#worldmap" id="map">
+  <div class="tooltip" id="tooltip"></div>
+</div>
+
+<map name="worldmap">
+
+  <!-- ここから国ごとの定義 -->
+
+  <!-- 例：Lespelan -->
+  <area shape="poly"
+        coords="※後で設定します"
+        href="#"
+        alt="Lespelan"
+        data-name="Lespelan">
+
+  <!-- 例：Malakova -->
+  <area shape="poly"
+        coords="※後で設定します"
+        href="#"
+        alt="Malakova"
+        data-name="Malakova">
+
+  <!-- 国が増えたらここに追加 -->
+
+</map>
+
+<script>
+const tooltip = document.getElementById("tooltip");
+
+document.querySelectorAll("area").forEach(area => {
+  area.addEventListener("mouseenter", () => {
+    tooltip.textContent = area.dataset.name;
+    tooltip.style.display = "block";
+  });
+
+  area.addEventListener("mousemove", e => {
+    tooltip.style.left = e.pageX + 10 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+  });
+
+  area.addEventListener("mouseleave", () => {
+    tooltip.style.display = "none";
+  });
+});
+</script>
+
+</body>
+</html>
