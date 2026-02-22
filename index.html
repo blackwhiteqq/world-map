@@ -26,79 +26,26 @@ img {
 .overlay {
   position: absolute;
   inset: 0;
-  pointer-events: none; /* ←超重要 */
+  pointer-events: none;
 }
 
-/* 国（path）だけ反応させる */
 .country {
-  fill: rgba(255, 215, 0, 0);   /* 通常は透明 */
-  stroke: rgba(255, 215, 0, 0.7);
+  fill: transparent;
+  stroke: rgba(255,215,0,0.8);
   stroke-width: 2;
-  pointer-events: auto;        /* pathだけ反応 */
+  pointer-events: auto;
   cursor: pointer;
 }
 
-/* 選択中だけ光る */
+.country:hover {
+  fill: rgba(255,215,0,0.25);
+}
+
 .country.active {
-  fill: rgba(255, 215, 0, 0.35);
-}
+  fill: rgba(255,215,0,0.45);
 
-/* ===== ツールチップ ===== */
-.tooltip {
-  position: absolute;
-  padding: 4px 8px;
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  font-size: 13px;
-  border-radius: 4px;
-  pointer-events: none;
-  display: none;
-  white-space: nowrap;
-  z-index: 20;
-}
+.country { fill: red; }
 
-/* ===== 選択中表示 ===== */
-.selected-label {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 6px 12px;
-  background: rgba(255, 215, 0, 0.9);
-  color: #000;
-  font-weight: bold;
-  border-radius: 6px;
-  display: none;
-  z-index: 30;
-  box-shadow: 0 0 12px gold;
-}
-/* 選択中ラベル（光る） */
-.selected-label {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 6px 14px;
-  background: gold;
-  color: #000;
-  font-weight: bold;
-  border-radius: 6px;
-  display: none;
-  z-index: 30;
-  box-shadow: 0 0 15px gold;
-}
-
-/* フラッシュ演出 */
-.flash {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 215, 0, 0.35);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 15;
-}
-
-.flash.active {
-  opacity: 1;
 }
 </style>
 </head>
@@ -112,44 +59,41 @@ img {
 
 <svg viewBox="0 0 1000 750"
      xmlns="http://www.w3.org/2000/svg"
-     class="overlay">
+     class="overlay"
+     fill="none">
 
- <path id="delt" class="country"
-       d="m 602.12508,357.82495 c -24.80788,-27.43653 -15.60761,-20.04346 -31.87238,-31.5438 -16.26477,-11.50034 -25.30075,-2.46436 -25.30075,-2.46436 l -9.85744,14.29328 -17.4148,1.15004 -8.7074,-11.00747 -6.24305,-8.54311 -6.73591,-2.46436 -20.86491,-1.47862 -5.91446,5.75017 c 0,0 -8.7074,17.08623 -8.87169,17.74339 -0.16429,0.65716 -2.46436,21.35778 -2.46436,21.35778 l 7.22878,34.66532 10.18602,4.92871 8.05024,1.97149 3.94298,4.43585 16.59335,-3.4501 12.65038,-8.37883 5.75017,-18.56483 29.40802,-15.27903 34.9939,4.43584 z"
+  <!-- Delt -->
+  <path
+    id="delt"
+    class="country"
+    d="M602.12508,357.82495
+       c -24.80788,-27.43653 -15.60761,-20.04346 -31.87238,-31.5438
+       -16.26477,-11.50034 -25.30075,-2.46436 -25.30075,-2.46436
+       l -9.85744,14.29328 -17.4148,1.15004 -8.7074,-11.00747
+       -6.24305,-8.54311 -6.73591,-2.46436 -20.86491,-1.47862
+       -5.91446,5.75017 c 0,0 -8.7074,17.08623 -8.87169,17.74339
+       -0.16429,0.65716 -2.46436,21.35778 -2.46436,21.35778
+       l 7.22878,34.66532 10.18602,4.92871 8.05024,1.97149
+       3.94298,4.43585 16.59335,-3.4501 12.65038,-8.37883
+       5.75017,-18.56483 29.40802,-15.27903 34.9939,4.43584 z" />
 
-  <path id="fas-laslixt" class="country"
-       d="m 661.24535,600.13941 c -18.58736,-1.16171 -29.50743,0.92936 -29.50743,0.92936 l -15.79926,-8.36431 -2.7881,-11.15241 0.69702,-6.27324 -2.55576,-5.34387 2.32342,-9.75836 -2.32342,-8.829 4.18216,-9.29368 -9.99071,-17.65799 6.50558,-11.6171 0.23234,-5.34387 13.70818,-4.87918 -9.06134,-21.6078 24.8606,-20.21376 7.43494,5.80855 21.37546,2.32342 21.84015,-14.63754 8.59666,3.02044 8.59665,3.02045 -4.18215,18.12267 1.85873,11.38476 24.39591,23.93123 29.2751,28.11338 -32.76023,28.34573 -6.97026,12.77881 -36.24535,16.26394 z"
+  <!-- Fas-laslixt -->
+  <path
+    id="fas-laslixt"
+    class="country"
+    d="M661.24535,600.13941
+       c -18.58736,-1.16171 -29.50743,0.92936 -29.50743,0.92936
+       l -15.79926,-8.36431 -2.7881,-11.15241 0.69702,-6.27324
+       -2.55576,-5.34387 2.32342,-9.75836 -2.32342,-8.829
+       4.18216,-9.29368 -9.99071,-17.65799 6.50558,-11.6171
+       0.23234,-5.34387 13.70818,-4.87918 -9.06134,-21.6078
+       24.8606,-20.21376 7.43494,5.80855 21.37546,2.32342
+       21.84015,-14.63754 8.59666,3.02044 -4.18215,18.12267
+       1.85873,11.38476 24.39591,23.93123 29.2751,28.11338
+       -32.76023,28.34573 -6.97026,12.77881 -36.24535,16.26394 z" />
+
 </svg>
 
-  <map name="worldmap">
-    <area shape="poly"
-      coords="469,402,493,408,519,395,522,373,547,363,576,368,599,358,576,330,566,314,548,318,510,339,502,311,470,319,461,365"
-      href="https://power-tennis-ec9.notion.site/2088785cd80580f88929d3374b88c13d"
-      target="_blank" rel="noopener"
-      alt="Delt" data-name="Delt">
-
-    <area shape="poly"
-      coords="604,355,575,328,566,311,579,293,598,303,621,302,637,310,626,334"
-      href="https://power-tennis-ec9.notion.site/"
-      target="_blank" rel="noopener"
-      alt="Kalintia" data-name="Kalintia">
-
-    <area shape="poly"
-      coords="760,542,707,487,709,464,688,454,674,465,646,460,618,477,626,497,610,503,602,519,617,540,610,566,648,586,677,591"
-      href="https://power-tennis-ec9.notion.site/1d68785cd8058089b7e6d24d061f5bb9"
-      target="_blank" rel="noopener"
-      alt="FAS・Laslixt" data-name="FAS・Laslixt">
-  </map>
-
-<div id="flash" class="flash"></div>
-<div id="selected" class="selected-label"></div>
-
-</div>
-<div class="map-container">
-  <img src="エーネスnmas.jpg">
-  <svg class="overlay">
-    <polygon id="delt" class="country"/>
-  </svg>
 </div>
 
 <script>
