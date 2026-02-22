@@ -5,84 +5,41 @@
 <title>エーネス大陸</title>
 
 <style>
-  body {
-    margin: 0;
-    background: #0f0f0f;
-    text-align: center;
-  }
+body {
+  margin: 0;
+  background: #0f0f0f;
+  text-align: center;
+}
 
-  .map-container {
-    position: relative;
-    width: 1000px;   /* ★基準サイズ */
-    margin: 0 auto;
-  }
+.map-container {
+  position: relative;
+  width: 1000px;
+  margin: 0 auto;
+}
 
-  img {
-    width: 1000px;   /* ★必ず固定 */
-    height: 750px;   /* ★必ず固定 */
-    display: block;
-  }
-
-  .tooltip {
-    position: absolute;
-    padding: 4px 8px;
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    font-size: 13px;
-    border-radius: 4px;
-    pointer-events: none;
-    display: none;
-    white-space: nowrap;
-    z-index: 10;
-  }
-</style>
-</head>
-
-<body>
-
-<div class="map-container">
-  <img src="エーネスnmas.jpg" usemap="#worldmap" alt="World Map">
-  <div id="tooltip" class="tooltip"></div>
-
-<div class="highlight" id="hl-delt"></div>
-<div class="highlight" id="hl-kalintia"></div>
-<div class="highlight" id="hl-fas"></div>
-
-  <map name="worldmap">
-    <!-- Delt -->
-    <area shape="poly"
-      coords="469,402,493,408,519,395,522,373,547,363,576,368,599,358,576,330,566,314,548,318,510,339,502,311,470,319,461,365"
-      href="https://power-tennis-ec9.notion.site/2088785cd80580f88929d3374b88c13d"
-      target="_blank" rel="noopener"
-      alt="Delt" data-name="Delt">
-
-    <!-- Kalintia -->
-    <area shape="poly"
-      coords="604,355,575,328,566,311,579,293,598,303,621,302,637,310,626,334"
-      href="https://power-tennis-ec9.notion.site/"
-      target="_blank" rel="noopener"
-      alt="Kalintia" data-name="Kalintia">
-
-    <!-- FAS・Laslixt -->
-    <area shape="poly"
-      coords="760,542,707,487,709,464,688,454,674,465,646,460,618,477,626,497,610,503,602,519,617,540,610,566,648,586,677,591"
-      href="https://power-tennis-ec9.notion.site/1d68785cd8058089b7e6d24d061f5bb9"
-      target="_blank" rel="noopener"
-      alt="FAS・Laslixt" data-name="FAS・Laslixt">
-
-  <!-- 国が増えたらここに追加 -->
-
-  </map>
-</div>
-
-
-<script>
-.highlight {
-  position: absolute;
-  top: 0;
-  left: 0;
+img {
   width: 1000px;
   height: 750px;
+  display: block;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 13px;
+  border-radius: 4px;
+  pointer-events: none;
+  display: none;
+  white-space: nowrap;
+  z-index: 20;
+}
+
+/* ★ ハイライト */
+.highlight {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   display: none;
 }
@@ -94,36 +51,53 @@
   filter: drop-shadow(0 0 12px gold);
 }
 </style>
+</head>
 
-<style>
-const highlights = {
-  "Delt": document.getElementById("hl-delt"),
-  "Kalintia": document.getElementById("hl-kalintia"),
-  "FAS・Laslixt": document.getElementById("hl-fas")
-};
+<body>
 
-document.querySelectorAll("area").forEach(area => {
-  area.addEventListener("click", e => {
-  e.preventDefault();
-  Object.values(highlights).forEach(h => h.classList.remove("active"));
-  highlights[area.dataset.name]?.classList.add("active");
+<div class="map-container">
+  <img src="エーネスnmas.jpg" usemap="#worldmap" alt="World Map">
+  <div id="tooltip" class="tooltip"></div>
 
-  setTimeout(() => {
-    window.open(area.href, "_blank", "noopener");
-  }, 150);
-});
-</script>
+  <!-- ハイライト -->
+  <div class="highlight" id="hl-delt"></div>
+  <div class="highlight" id="hl-kalintia"></div>
+  <div class="highlight" id="hl-fas"></div>
 
+  <map name="worldmap">
+    <area shape="poly" coords="469,402,493,408,519,395,522,373,547,363,576,368,599,358,576,330,566,314,548,318,510,339,502,311,470,319,461,365"
+      href="https://power-tennis-ec9.notion.site/2088785cd80580f88929d3374b88c13d"
+      target="_blank" rel="noopener"
+      alt="Delt" data-name="Delt">
+
+    <area shape="poly" coords="604,355,575,328,566,311,579,293,598,303,621,302,637,310,626,334"
+      href="https://power-tennis-ec9.notion.site/"
+      target="_blank" rel="noopener"
+      alt="Kalintia" data-name="Kalintia">
+
+    <area shape="poly" coords="760,542,707,487,709,464,688,454,674,465,646,460,618,477,626,497,610,503,602,519,617,540,610,566,648,586,677,591"
+      href="https://power-tennis-ec9.notion.site/1d68785cd8058089b7e6d24d061f5bb9"
+      target="_blank" rel="noopener"
+      alt="FAS・Laslixt" data-name="FAS・Laslixt">
+
+
+  <!-- 国が増えたらここに追加　-->
+
+
+  </map>
+</div>
 
 <script>
 const tooltip = document.getElementById('tooltip');
+const container = document.querySelector('.map-container');
 
 document.querySelectorAll('area').forEach(area => {
   area.addEventListener('mousemove', e => {
+    const rect = container.getBoundingClientRect();
     tooltip.style.display = 'block';
     tooltip.textContent = area.dataset.name;
-    tooltip.style.left = e.pageX + 12 + 'px';
-    tooltip.style.top  = e.pageY + 12 + 'px';
+    tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
+    tooltip.style.top  = (e.clientY - rect.top + 12) + 'px';
   });
   area.addEventListener('mouseleave', () => {
     tooltip.style.display = 'none';
