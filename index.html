@@ -39,13 +39,18 @@ img {
   pointer-events: none; /* ←超重要 */
 }
 
+/* 国（path）だけ反応させる */
 .country {
-  fill: rgba(255, 215, 0, 0);
-  transition: fill 0.2s ease;
+  fill: rgba(255, 215, 0, 0);   /* 通常は透明 */
+  stroke: rgba(255, 215, 0, 0.7);
+  stroke-width: 2;
+  pointer-events: auto;        /* pathだけ反応 */
+  cursor: pointer;
 }
 
+/* 選択中だけ光る */
 .country.active {
-  fill: rgba(255, 215, 0, 0.3);
+  fill: rgba(255, 215, 0, 0.35);
 }
 
 /* ===== ツールチップ ===== */
