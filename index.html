@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -28,23 +29,26 @@ img {
   pointer-events: none;
 }
 
+/* --- ここを修正しました --- */
 .country {
   fill: transparent;
-  stroke: rgba(255,215,0,0.8);
+  stroke: transparent; /* ← 最初は国境の線を「透明」にしました */
   stroke-width: 2;
   pointer-events: auto;
   cursor: pointer;
-  transition: fill 0.2s; /* ホバー時の色の変化を少し滑らかにするおまけです */
+  transition: fill 0.2s, stroke 0.2s; /* 色と線の変化を滑らかに */
 }
 
 /* ホバー（マウスを乗せた）時の色 */
 .country:hover {
   fill: rgba(255,215,0,0.25);
+  stroke: rgba(255,215,0,0.8); /* ← マウスを乗せた時だけ国境の線を黄色にしました */
 }
 
 /* クリック（アクティブ）時の色 */
 .country.active {
   fill: rgba(255,215,0,0.45);
+  stroke: rgba(255,215,0,1);
 }
 </style>
 </head>
@@ -107,19 +111,16 @@ document.querySelectorAll('.country').forEach(p => {
     // クリックした国だけハイライトする
     p.classList.add('active');
 
-    // ★ Notionのページに飛ぶ処理 ★
+    // ★ Notionのページに飛ぶ処理（修正しました） ★
     const url = p.getAttribute('data-url');
     if (url) {
-      // 別タブで開きたい場合はこちら
-      window.open(url, '_blank'); 
-      
-      // 同じ画面のまま移動したい場合はこちら（上の window.open を消して下の行の // を消してください）
-      // window.location.href = url; 
+      // ポップアップブロックを回避するため、同じ画面で遷移するように変更しました
+      window.location.href = url; 
     }
   });
 });
 
-// 2. ボタンを押したときの処理（いただいたコードにボタンがあったので追加しました）
+// 2. ボタンを押したときの処理
 function selectCountry(countryId) {
   const targetElement = document.getElementById(countryId);
   if (targetElement) {
