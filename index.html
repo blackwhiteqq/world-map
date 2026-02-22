@@ -23,6 +23,7 @@ img {
   display: block;
 }
 
+/* ===== ツールチップ ===== */
 .tooltip {
   position: absolute;
   padding: 4px 8px;
@@ -36,19 +37,19 @@ img {
   z-index: 20;
 }
 
-/* ★ ハイライト */
-.highlight {
+/* ===== 選択中表示 ===== */
+.selected-label {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  top: 10px;
+  left: 10px;
+  padding: 6px 12px;
+  background: rgba(255, 215, 0, 0.9);
+  color: #000;
+  font-weight: bold;
+  border-radius: 6px;
   display: none;
-}
-
-.highlight.active {
-  display: block;
-  background: rgba(255, 215, 0, 0.25);
-  outline: 2px solid rgba(255, 215, 0, 0.9);
-  filter: drop-shadow(0 0 12px gold);
+  z-index: 30;
+  box-shadow: 0 0 12px gold;
 }
 </style>
 </head>
@@ -58,40 +59,37 @@ img {
 <div class="map-container">
   <img src="エーネスnmas.jpg" usemap="#worldmap" alt="World Map">
   <div id="tooltip" class="tooltip"></div>
-
-  <!-- ハイライト -->
-  <div class="highlight" id="hl-delt"></div>
-  <div class="highlight" id="hl-kalintia"></div>
-  <div class="highlight" id="hl-fas"></div>
+  <div id="selected" class="selected-label"></div>
 
   <map name="worldmap">
-    <area shape="poly" coords="469,402,493,408,519,395,522,373,547,363,576,368,599,358,576,330,566,314,548,318,510,339,502,311,470,319,461,365"
+    <area shape="poly"
+      coords="469,402,493,408,519,395,522,373,547,363,576,368,599,358,576,330,566,314,548,318,510,339,502,311,470,319,461,365"
       href="https://power-tennis-ec9.notion.site/2088785cd80580f88929d3374b88c13d"
       target="_blank" rel="noopener"
       alt="Delt" data-name="Delt">
 
-    <area shape="poly" coords="604,355,575,328,566,311,579,293,598,303,621,302,637,310,626,334"
+    <area shape="poly"
+      coords="604,355,575,328,566,311,579,293,598,303,621,302,637,310,626,334"
       href="https://power-tennis-ec9.notion.site/"
       target="_blank" rel="noopener"
       alt="Kalintia" data-name="Kalintia">
 
-    <area shape="poly" coords="760,542,707,487,709,464,688,454,674,465,646,460,618,477,626,497,610,503,602,519,617,540,610,566,648,586,677,591"
+    <area shape="poly"
+      coords="760,542,707,487,709,464,688,454,674,465,646,460,618,477,626,497,610,503,602,519,617,540,610,566,648,586,677,591"
       href="https://power-tennis-ec9.notion.site/1d68785cd8058089b7e6d24d061f5bb9"
       target="_blank" rel="noopener"
       alt="FAS・Laslixt" data-name="FAS・Laslixt">
-
-
-  <!-- 国が増えたらここに追加　-->
-
-
   </map>
 </div>
 
 <script>
 const tooltip = document.getElementById('tooltip');
+const selected = document.getElementById('selected');
 const container = document.querySelector('.map-container');
 
 document.querySelectorAll('area').forEach(area => {
+
+  // ホバー表示
   area.addEventListener('mousemove', e => {
     const rect = container.getBoundingClientRect();
     tooltip.style.display = 'block';
@@ -99,10 +97,23 @@ document.querySelectorAll('area').forEach(area => {
     tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
     tooltip.style.top  = (e.clientY - rect.top + 12) + 'px';
   });
+
   area.addEventListener('mouseleave', () => {
     tooltip.style.display = 'none';
   });
+
+  // クリック選択
+  area.addEventListener('click', e => {
+    e.preventDefault();
+    selected.textContent = `選択中：${area.dataset.name}`;
+    selected.style.display = 'block';
+
+    setTimeout(() => {
+      window.open(area.href, "_blank", "noopener");
+    }, 150);
+  });
 });
 </script>
+
 </body>
 </html>
