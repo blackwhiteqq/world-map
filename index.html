@@ -23,16 +23,6 @@ img {
   display: block;
 }
 
-.map-container {
-  position: relative;
-  width: 1000px;
-}
-
-.map-container img {
-  display: block;
-  width: 100%;
-}
-
 .overlay {
   position: absolute;
   inset: 0;
@@ -120,70 +110,15 @@ img {
   <div id="tooltip" class="tooltip"></div>
   <div id="selected" class="selected-label"></div>
 
-<svg
-   version="1.1"
-   id="svg1"
-   width="1000"
-   height="750"
-   viewBox="0 0 1000 750"
-   sodipodi:docname="エーネスnmas.svg"
-   inkscape:version="1.4.2 (ebf0e94, 2025-05-08)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#cccccc"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="1"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showgrid="false"
-     inkscape:zoom="1.5216938"
-     inkscape:cx="737.33625"
-     inkscape:cy="497.80054"
-     inkscape:window-width="1904"
-     inkscape:window-height="993"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="layer1">
-    <inkscape:grid
-       id="grid1"
-       units="px"
-       originx="0"
-       originy="0"
-       spacingx="1"
-       spacingy="1"
-       empcolor="#0099e5"
-       empopacity="0.30196078"
-       color="#0099e5"
-       opacity="0.14901961"
-       empspacing="5"
-       enabled="true"
-       visible="false" />
-  </sodipodi:namedview>
-  <g
-     inkscape:groupmode="layer"
-     id="layer1"
-     inkscape:label="SVGレイヤー"
-     style="display:inline">
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+<svg viewBox="0 0 1000 750"
+     xmlns="http://www.w3.org/2000/svg"
+     class="overlay">
+
+ <path id="delt" class="country"
        d="m 602.12508,357.82495 c -24.80788,-27.43653 -15.60761,-20.04346 -31.87238,-31.5438 -16.26477,-11.50034 -25.30075,-2.46436 -25.30075,-2.46436 l -9.85744,14.29328 -17.4148,1.15004 -8.7074,-11.00747 -6.24305,-8.54311 -6.73591,-2.46436 -20.86491,-1.47862 -5.91446,5.75017 c 0,0 -8.7074,17.08623 -8.87169,17.74339 -0.16429,0.65716 -2.46436,21.35778 -2.46436,21.35778 l 7.22878,34.66532 10.18602,4.92871 8.05024,1.97149 3.94298,4.43585 16.59335,-3.4501 12.65038,-8.37883 5.75017,-18.56483 29.40802,-15.27903 34.9939,4.43584 z"
-       id="path1"
-       inkscape:label="DELT" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+
+  <path id="fas-laslixt" class="country"
        d="m 661.24535,600.13941 c -18.58736,-1.16171 -29.50743,0.92936 -29.50743,0.92936 l -15.79926,-8.36431 -2.7881,-11.15241 0.69702,-6.27324 -2.55576,-5.34387 2.32342,-9.75836 -2.32342,-8.829 4.18216,-9.29368 -9.99071,-17.65799 6.50558,-11.6171 0.23234,-5.34387 13.70818,-4.87918 -9.06134,-21.6078 24.8606,-20.21376 7.43494,5.80855 21.37546,2.32342 21.84015,-14.63754 8.59666,3.02044 8.59665,3.02045 -4.18215,18.12267 1.85873,11.38476 24.39591,23.93123 29.2751,28.11338 -32.76023,28.34573 -6.97026,12.77881 -36.24535,16.26394 z"
-       id="path2"
-       inkscape:label="Fas-laslixt" />
-  </g>
 </svg>
 
   <map name="worldmap">
@@ -218,52 +153,13 @@ img {
 </div>
 
 <script>
-const tooltip = document.getElementById('tooltip');
-const selected = document.getElementById('selected');
-const flash = document.getElementById('flash');
-const container = document.querySelector('.map-container');
-
-document.querySelectorAll('area').forEach(area => {
-
-  // ホバー表示
-  area.addEventListener('mousemove', e => {
-    const rect = container.getBoundingClientRect();
-    tooltip.style.display = 'block';
-    tooltip.textContent = area.dataset.name;
-    tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
-    tooltip.style.top  = (e.clientY - rect.top + 12) + 'px';
-  });
-
-  area.addEventListener('mouseleave', () => {
-    tooltip.style.display = 'none';
-  });
-
-  // クリック演出
-  area.addEventListener('click', e => {
-    e.preventDefault();
-
-    // ラベル固定
-    selected.textContent = `選択中：${area.dataset.name}`;
-    selected.style.display = 'block';
-
-    // フラッシュ
-    flash.classList.add('active');
-    setTimeout(() => flash.classList.remove('active'), 200);
-
-    // Notionへ
-    setTimeout(() => {
-      window.open(area.href, "_blank", "noopener");
-    }, 200);
+document.querySelectorAll('.country').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('.country')
+      .forEach(c => c.classList.remove('active'));
+    p.classList.add('active');
   });
 });
-
-function selectCountry(id) {
-  document.querySelectorAll('.country').forEach(c =>
-    c.classList.remove('active')
-  );
-  document.getElementById(id)?.classList.add('active');
-}
-
 </script>
 
 <button onclick="selectCountry('delt')">Delt</button>
