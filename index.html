@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>エーネス大陸</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #0f0f0f;
+    text-align: center;
+  }
+
+  .map-container {
+    position: relative;
+    width: 1000px;   /* ★基準サイズ */
+    margin: 0 auto;
+  }
+
+  img {
+    width: 1000px;   /* ★必ず固定 */
+    height: 750px;   /* ★必ず固定 */
+    display: block;
+  }
+
+  .tooltip {
+    position: absolute;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 13px;
+    border-radius: 4px;
+    pointer-events: none;
+    display: none;
+    white-space: nowrap;
+    z-index: 10;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="map-container">
+  <img src="エーネスnmas.jpg" usemap="#worldmap" alt="World Map">
+  <div id="tooltip" class="tooltip"></div>
+
+  <map name="worldmap">
+    <!-- Delt -->
+    <area shape="poly"
+      coords="918,698,936,634,999,631,1024,671,1083,663,1111,624,1139,647,1206,720,1157,736,1081,731,1030,794,945,798"
+      href="https://power-tennis-ec9.notion.site/2088785cd80580f88929d3374b88c13d"
+      target="_blank" rel="noopener"
+      alt="Delt" data-name="Delt">
+
+    <!-- Kalintia -->
+    <area shape="poly"
+      coords="1208,716,1143,651,1134,616,1173,596,1222,614,1240,605,1272,631,1251,677"
+      href="https://power-tennis-ec9.notion.site/"
+      target="_blank" rel="noopener"
+      alt="Kalintia" data-name="Kalintia">
+
+    <!-- FAS・Laslixt -->
+    <area shape="poly"
+      coords="1431,1027,1410,974,1418,921,1369,918,1279,926,1238,957,1245,994,1208,1048,1226,1085,1226,1142,1332,1223,1441,1167,1528,1080"
+      href="https://power-tennis-ec9.notion.site/1d68785cd8058089b7e6d24d061f5bb9"
+      target="_blank" rel="noopener"
+      alt="FAS・Laslixt" data-name="FAS・Laslixt">
+
+  <!-- 国が増えたらここに追加 -->
+
+
+  </map>
+</div>
+
+<script>
+const tooltip = document.getElementById('tooltip');
+
+document.querySelectorAll('area').forEach(area => {
+  area.addEventListener('mousemove', e => {
+    tooltip.style.display = 'block';
+    tooltip.textContent = area.dataset.name;
+    tooltip.style.left = e.pageX + 12 + 'px';
+    tooltip.style.top  = e.pageY + 12 + 'px';
+  });
+  area.addEventListener('mouseleave', () => {
+    tooltip.style.display = 'none';
+  });
+});
+</script>
+</body>
+</html>
