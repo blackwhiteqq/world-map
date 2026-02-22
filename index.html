@@ -51,6 +51,35 @@ img {
   z-index: 30;
   box-shadow: 0 0 12px gold;
 }
+/* 選択中ラベル（光る） */
+.selected-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 6px 14px;
+  background: gold;
+  color: #000;
+  font-weight: bold;
+  border-radius: 6px;
+  display: none;
+  z-index: 30;
+  box-shadow: 0 0 15px gold;
+}
+
+/* フラッシュ演出 */
+.flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 215, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 15;
+}
+
+.flash.active {
+  opacity: 1;
+}
 </style>
 </head>
 
@@ -80,11 +109,16 @@ img {
       target="_blank" rel="noopener"
       alt="FAS・Laslixt" data-name="FAS・Laslixt">
   </map>
+
+<div id="flash" class="flash"></div>
+<div id="selected" class="selected-label"></div>
+
 </div>
 
 <script>
 const tooltip = document.getElementById('tooltip');
 const selected = document.getElementById('selected');
+const flash = document.getElementById('flash');
 const container = document.querySelector('.map-container');
 
 document.querySelectorAll('area').forEach(area => {
@@ -102,15 +136,22 @@ document.querySelectorAll('area').forEach(area => {
     tooltip.style.display = 'none';
   });
 
-  // クリック選択
+  // クリック演出
   area.addEventListener('click', e => {
     e.preventDefault();
+
+    // ラベル固定
     selected.textContent = `選択中：${area.dataset.name}`;
     selected.style.display = 'block';
 
+    // フラッシュ
+    flash.classList.add('active');
+    setTimeout(() => flash.classList.remove('active'), 200);
+
+    // Notionへ
     setTimeout(() => {
       window.open(area.href, "_blank", "noopener");
-    }, 150);
+    }, 200);
   });
 });
 </script>
