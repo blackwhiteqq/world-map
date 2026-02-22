@@ -44,6 +44,10 @@
   <img src="エーネスnmas.jpg" usemap="#worldmap" alt="World Map">
   <div id="tooltip" class="tooltip"></div>
 
+<div class="highlight" id="hl-delt"></div>
+<div class="highlight" id="hl-kalintia"></div>
+<div class="highlight" id="hl-fas"></div>
+
   <map name="worldmap">
     <!-- Delt -->
     <area shape="poly"
@@ -68,13 +72,11 @@
 
   <!-- 国が増えたらここに追加 -->
 
-
   </map>
 </div>
-<div class="highlight" id="hl-delt"></div>
-<div class="highlight" id="hl-kalintia"></div>
-<div class="highlight" id="hl-fas"></div>
 
+
+<script>
 .highlight {
   position: absolute;
   top: 0;
@@ -91,8 +93,9 @@
   outline: 2px solid rgba(255, 215, 0, 0.9);
   filter: drop-shadow(0 0 12px gold);
 }
+</style>
 
-<script>
+<style>
 const highlights = {
   "Delt": document.getElementById("hl-delt"),
   "Kalintia": document.getElementById("hl-kalintia"),
@@ -100,13 +103,14 @@ const highlights = {
 };
 
 document.querySelectorAll("area").forEach(area => {
-  area.addEventListener("click", () => {
-    Object.values(highlights).forEach(h => h.classList.remove("active"));
-    const name = area.dataset.name;
-    if (highlights[name]) {
-      highlights[name].classList.add("active");
-    }
-  });
+  area.addEventListener("click", e => {
+  e.preventDefault();
+  Object.values(highlights).forEach(h => h.classList.remove("active"));
+  highlights[area.dataset.name]?.classList.add("active");
+
+  setTimeout(() => {
+    window.open(area.href, "_blank", "noopener");
+  }, 150);
 });
 </script>
 
