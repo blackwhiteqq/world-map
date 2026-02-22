@@ -65,10 +65,10 @@ img {
        class="overlay"
        fill="none">
 
+   <a href="https://www.notion.so/2088785cd80580f88929d3374b88c13d" target="_blank" rel="noopener">
     <path
       id="delt"
       class="country"
-      data-url="https://www.notion.so/2088785cd80580f88929d3374b88c13d"
       d="M602.12508,357.82495
          c -24.80788,-27.43653 -15.60761,-20.04346 -31.87238,-31.5438
          -16.26477,-11.50034 -25.30075,-2.46436 -25.30075,-2.46436
@@ -79,11 +79,12 @@ img {
          l 7.22878,34.66532 10.18602,4.92871 8.05024,1.97149
          3.94298,4.43585 16.59335,-3.4501 12.65038,-8.37883
          5.75017,-18.56483 29.40802,-15.27903 34.9939,4.43584 z" />
+  </a>
 
     <path
       id="fas-laslixt"
       class="country"
-      data-url="https://www.notion.so/1d68785cd8058089b7e6d24d061f5bb9"
+   <a href="https://www.notion.so/1d68785cd8058089b7e6d24d061f5bb9" target="_blank" rel="noopener">
       d="M661.24535,600.13941
          c -18.58736,-1.16171 -29.50743,0.92936 -29.50743,0.92936
          l -15.79926,-8.36431 -2.7881,-11.15241 0.69702,-6.27324
@@ -94,40 +95,22 @@ img {
          21.84015,-14.63754 8.59666,3.02044 -4.18215,18.12267
          1.85873,11.38476 24.39591,23.93123 29.2751,28.11338
          -32.76023,28.34573 -6.97026,12.77881 -36.24535,16.26394 z" />
+  </a>
 
   </svg>
 </div>
-
-<br>
-<button onclick="selectCountry('delt')">Deltを選択</button>
-<button onclick="selectCountry('fas-laslixt')">Fas-laslixtを選択</button>
-
 <script>
 // 1. 地図上の国をクリックしたときの処理
 document.querySelectorAll('.country').forEach(p => {
   p.addEventListener('click', () => {
-    // 他の国のハイライトを消す
     document.querySelectorAll('.country').forEach(c => c.classList.remove('active'));
-    // クリックした国だけハイライトする
     p.classList.add('active');
-
-    // ★ Notionのページに飛ぶ処理（修正しました） ★
     const url = p.getAttribute('data-url');
     if (url) {
-      // ポップアップブロックを回避するため、同じ画面で遷移するように変更しました
-      window.location.href = url; 
+      window.open(url, '_blank');
     }
   });
 });
-
-// 2. ボタンを押したときの処理
-function selectCountry(countryId) {
-  const targetElement = document.getElementById(countryId);
-  if (targetElement) {
-    document.querySelectorAll('.country').forEach(c => c.classList.remove('active'));
-    targetElement.classList.add('active');
-  }
-}
 </script>
 
 </body>
